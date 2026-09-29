@@ -1,0 +1,18 @@
+{
+  "system_name": "Zero-Framework Scratch RAG",
+  "author": "Antigravity Engineering",
+  "description": "A fully local, lightweight Retrieval-Augmented Generation pipeline built without LangChain or LlamaIndex.",
+  "components": {
+    "document_loader": "Extracts text from markdown, text, csv, and json formats with UTF-8 encoding.",
+    "splitter": "Recursive text chunker maintaining configurable chunk size (500 chars) and overlap (100 chars) to prevent context fragmentation.",
+    "embedding_engine": "Ollama local API generating dense vector representations with 768 dimensions using embeddinggemma.",
+    "vector_store": "Custom in-memory index featuring exact cosine similarity search and persistent JSON disk caching.",
+    "llm_generator": "Ollama local inference engine running llama3.2 (3B parameters) with streaming token support and strict source grounding."
+  },
+  "advantages": [
+    "Zero external vendor lock-in or cloud subscription fees",
+    "Complete data privacy since all documents and prompts remain on localhost",
+    "Fast execution without heavy abstraction layers or dependency conflicts",
+    "Transparent math and clear debugging paths"
+  ]
+}

@@ -1,0 +1,17 @@
+Quantum Computing: Fundamental Concepts and Hardware
+
+Quantum computing harnesses the laws of quantum mechanics to solve complex mathematical problems that are intractable for classical computers.
+
+Core Quantum Principles:
+1. Qubits: Unlike classical bits which exist strictly as binary 0 or 1, a qubit exists in a linear combination of states |0> and |1>.
+2. Superposition: A quantum state allowing a qubit to represent multiple possibilities simultaneously until measurement causes wave-function collapse.
+3. Quantum Entanglement: A physical phenomenon where multiple particles become interconnected such that the quantum state of one particle instantly influences the state of another, regardless of distance.
+4. Quantum Interference: The manipulation of quantum phases to amplify correct computational pathways and cancel out incorrect ones through destructive interference.
+
+Hardware Modalities:
+- Superconducting Circuits: Used by IBM and Google, these circuits rely on Josephson junctions cooled down to dilution refrigerator temperatures (around 15 millikelvin) to maintain coherence.
+- Trapped Ions: Utilized by IonQ and Quantinuum, this approach traps individual ionized atoms using electromagnetic fields and manipulates them with precise laser pulses, yielding high fidelity and longer coherence times.
+- Photonic Quantum Computing: Utilizes photons moving through optical circuits at room temperature, offering distinct scaling advantages.
+
+Key Bottlenecks:
+Quantum decoherence and environmental noise remain the primary challenges. Quantum Error Correction (QEC) requires hundreds or thousands of physical qubits to form a single fault-tolerant logical qubit.
