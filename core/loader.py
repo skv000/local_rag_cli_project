@@ -9,7 +9,7 @@ from .document import Document
 class DocumentLoader:
     """Loads text and structured documents from files or directories."""
 
-    SUPPORTED_EXTENSIONS = {".txt", ".md", ".markdown", ".json", ".csv", ".py", ".html"}
+    SUPPORTED_EXTENSIONS = {".txt", ".md", ".markdown", ".json", ".csv", ".py", ".html", ".pdf"}
 
     @classmethod
     def load_file(cls, file_path: Union[str, Path]) -> Document:
@@ -19,10 +19,31 @@ class DocumentLoader:
             raise FileNotFoundError(f"File not found: {path}")
 
         suffix = path.suffix.lower()
+        metadata = {
+            "filename": path.name,
+            "file_extension": suffix,
+            "file_size": path.stat().st_size,
+        }
 
         if suffix in {".txt", ".md", ".markdown", ".py", ".html"}:
             with open(path, "r", encoding="utf-8", errors="replace") as f:
                 content = f.read()
+        elif suffix == ".pdf":
+            try:
+                from pypdf import PdfReader
+            except ImportError:
+                raise ImportError(
+                    "The 'pypdf' package is required to read PDF files. "
+                    "Please install it with: pip install pypdf"
+                )
+            reader = PdfReader(str(path))
+            metadata["page_count"] = len(reader.pages)
+            pages_text = []
+            for page_idx, page in enumerate(reader.pages, start=1):
+                page_str = (page.extract_text() or "").strip()
+                if page_str:
+                    pages_text.append(f"--- Page {page_idx} ---\n{page_str}")
+            content = "\n\n".join(pages_text)
         elif suffix == ".json":
             with open(path, "r", encoding="utf-8", errors="replace") as f:
                 data = json.load(f)
@@ -45,11 +66,7 @@ class DocumentLoader:
         return Document(
             content=content,
             source=str(path),
-            metadata={
-                "filename": path.name,
-                "file_extension": suffix,
-                "file_size": path.stat().st_size,
-            },
+            metadata=metadata,
         )
 
     @classmethod

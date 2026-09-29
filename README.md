@@ -46,10 +46,11 @@ rag_project/
 ├── config.py                 # Configuration (Ollama URLs, model names, chunking parameters)
 ├── main.py                   # Interactive CLI (ingest, query, chat, stats, clear)
 ├── test_rag.py               # Unit & integration test suite (6 validation checks)
+├── requirements.txt          # Python dependencies (pypdf, numpy)
 ├── core/
 │   ├── __init__.py
 │   ├── document.py           # Document & Chunk data models with serialization
-│   ├── loader.py             # File and directory loader (.txt, .md, .json, .csv)
+│   ├── loader.py             # File and directory loader (.pdf, .txt, .md, .json, .csv, .py, .html)
 │   ├── splitter.py           # Recursive text chunker with sliding window overlap
 │   ├── ollama_client.py      # Native HTTP client for local Ollama API (embed & generate)
 │   ├── vector_store.py       # Custom vector store with cosine similarity & persistence
@@ -70,6 +71,10 @@ rag_project/
 ### 1. Requirements & Prerequisites
 - Python 3.9+ (Python 3.14 verified)
 - [Ollama](https://ollama.com/) installed and running locally
+- Install Python requirements:
+  ```bash
+  pip install -r requirements.txt
+  ```
 - Required models in Ollama:
   ```bash
   ollama run llama3.2:3b
@@ -77,14 +82,14 @@ rag_project/
   ```
 
 ### 2. Ingest Documents
-Ingest a directory of markdown, text, csv, or json files:
+Ingest a directory of PDF, markdown, text, csv, or json files:
 ```bash
 python main.py ingest data/sample_docs
 ```
 
-Or ingest a single file:
+Or ingest a single PDF / document file:
 ```bash
-python main.py ingest path/to/your_document.pdf.txt
+python main.py ingest path/to/your_document.pdf
 ```
 
 ### 3. Query the Knowledge Base

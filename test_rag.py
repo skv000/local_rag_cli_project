@@ -54,13 +54,26 @@ def run_tests():
         assert len(c) <= 120, f"Chunk {idx} exceeded max length: {len(c)}"
     print(f"  [OK] Split {len(sample_text)} chars into {len(chunks)} overlapping chunks.")
 
-    # 3. Test Document Loader
-    print("[3/6] Testing Document Loader...")
+    # 3. Test Document Loader (including PDF)
+    print("[3/6] Testing Document Loader & PDF Support...")
+    assert ".pdf" in DocumentLoader.SUPPORTED_EXTENSIONS, ".pdf must be in SUPPORTED_EXTENSIONS"
     sample_dir = Path("data/sample_docs")
     docs = DocumentLoader.load_directory(sample_dir)
     assert len(docs) >= 3, f"Expected at least 3 sample documents, got {len(docs)}"
     sources = [Path(d.source).name for d in docs]
     print(f"  [OK] Loaded {len(docs)} documents: {sources}")
+
+    # Verify PDF loading
+    from pypdf import PdfWriter
+    pdf_temp = Path(tempfile.gettempdir()) / "sample_rag_test.pdf"
+    writer = PdfWriter()
+    writer.add_blank_page(width=100, height=100)
+    writer.write(str(pdf_temp))
+    writer.close()
+    pdf_doc = DocumentLoader.load_file(pdf_temp)
+    assert pdf_doc.metadata.get("page_count") == 1, "PDF page count should be 1"
+    pdf_temp.unlink(missing_ok=True)
+    print("  [OK] Successfully loaded and parsed PDF document.")
 
     # 4. Test Ollama Client Connection & Embedding Generation
     print("[4/6] Testing Local Ollama API...")
