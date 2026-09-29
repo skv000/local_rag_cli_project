@@ -30,7 +30,7 @@ class DocumentLoader:
                 content = f.read()
         elif suffix == ".pdf":
             try:
-                from pypdf import PdfReader
+                from pypdf import PdfReader  # type: ignore
             except ImportError:
                 raise ImportError(
                     "The 'pypdf' package is required to read PDF files. "
